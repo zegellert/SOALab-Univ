@@ -115,7 +115,7 @@ def list_student_bypos_county(pos):
             try:
                 params={
                     'format':'json',
-                    'query':result[2],
+                    'q':str(result[2]),
                     'limit':1,
                     'addressdetails':1
                 }
