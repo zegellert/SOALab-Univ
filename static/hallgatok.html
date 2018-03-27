@@ -6,6 +6,8 @@
     </head>
     <body>
         <script type="text/javascript">
+           
+
             $(function() {
                 display = $('#time');
     timer(5, display);
@@ -18,7 +20,11 @@
                 $.ajax({
                     url: "../hallgatok.json",
                     dataType: "json",
-                    success: load_data_into_table
+                    success: function(response){
+                      
+                        
+                        load_data_into_table(response);
+                    }
                 });
             }
 
@@ -57,7 +63,7 @@ alert(display);
             }
 
 
-
+         
             function load_data_into_table(data) {
                 var hallgatok = data.hallgatok;
                 var table = document.getElementById("students");
@@ -90,6 +96,7 @@ alert(display);
                     button.setAttribute("value", "Reszletek");
                     cell_details.appendChild(button);
                     $(button).click(button_click_handler);
+
                 }
             }
         </script>
