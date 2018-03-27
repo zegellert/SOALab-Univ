@@ -78,13 +78,12 @@ def list_students():
         finally:
             cur.close()
     finally:
-        # this is also a naive implementation, a more Pythonic solution:
-        # http://docs.python.org/2/library/contextlib.html#contextlib.closing
+        
         conn.close()
 	
 @app.route('/hallgatok/<pos>.json')
 def list_student_bypos(pos):
-    """Lists the students in the database with given PS code"""
+    """Lists the student in the database with given PS code"""
     conn = get_db()
     try:
         cur = conn.cursor()
