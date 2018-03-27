@@ -24,7 +24,11 @@
             }
 
             function display_student(data){
-                alert(data);
+                var display="";
+                $.each( data, function( key, value ) {
+  display+= key + ": " + value+"\n" ;
+});
+alert(display);
             }
 
 
