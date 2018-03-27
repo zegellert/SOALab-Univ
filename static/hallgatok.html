@@ -1,112 +1,113 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Hallgatok</title>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <script type="text/javascript">
-           
 
-            $(function() {
-                display = $('#time');
-    timer(5, display);
+<head>
+    <title>Hallgatok</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+</head>
 
-                    get_backend_data();
-                
-            });
+<body>
+    <script type="text/javascript">
+        $(function() {
+            display = $('#time');
+            timer(5, display);
 
-            function get_backend_data(){
-                $.ajax({
-                    url: "../hallgatok.json",
-                    dataType: "json",
-                    success: function(response){
-                      
-                        
-                        load_data_into_table(response);
-                    }
-                });
-            }
-
-            function timer(duration, display) {
-    var timer = duration, seconds;
-    setInterval(function () {
-        seconds = parseInt(timer % 60, 10);
-
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.text("Az adatok frissitiseig hatralevo ido: 00:"+seconds);
-
-        if (--timer < 0) {
             get_backend_data();
-            timer = duration;
 
+        });
+
+        function get_backend_data() {
+            $.ajax({
+                url: "../hallgatok.json",
+                dataType: "json",
+                success: function(response) {
+
+
+                    load_data_into_table(response);
+                }
+            });
         }
-    }, 1000);
-}
 
-            function button_click_handler(evt){
-                var button = evt.target;
-                $.ajax({
-                    url: "../hallgatok/"+button.name+".json",
-                    dataType: "json",
-                    success: display_student
-                });
-            }
+        function timer(duration, display) {
+            var timer = duration,
+                seconds;
+            setInterval(function() {
+                seconds = parseInt(timer % 60, 10);
 
-            function display_student(data){
-                var display="";
-                $.each( data, function( key, value ) {
-  display+= key + ": " + value+"\n" ;
-});
-alert(display);
-            }
+                seconds = seconds < 10 ? "0" + seconds : seconds;
 
+                display.text("Az adatok frissitiseig hatralevo ido: 00:" + seconds);
 
-         
-            function load_data_into_table(data) {
-                var hallgatok = data.hallgatok;
-                var table = document.getElementById("students");
-                table.innerHTML = "";
-                var header=table.createTHead();
-                var row = header.insertRow(-1);
-    var cell = row.insertCell(-1);
-    cell.innerHTML = "<b>Nev</b>";
-    var cell1 = row.insertCell(-1);
-    cell1.innerHTML = "<b>Poseidonkod</b>";
-    var cell2 = row.insertCell(-1);
-    cell2.innerHTML = "<b>Szuletesi Datum</b>";
-    var cell3 = row.insertCell(-1);
-    cell3.innerHTML = "<b>Reszletek</b>";
-                for (var i = 0; i < hallgatok.length; i++) {
-                    var hallgato = hallgatok[i];
-                    var row = table.insertRow(-1);
-                    var cell_nev = row.insertCell(-1);
-                    var cell_pcode = row.insertCell(-1);
-                    var cell_born = row.insertCell(-1);
-                    var cell_details=row.insertCell(-1);
-                    $(cell_nev).text(hallgato.Nev);
-                    $(cell_pcode).text(hallgato.PoseidonKod);
-                    $(cell_born).text(hallgato.SzuletesiDatum);
-                    
-                    var button = document.createElement("input");
-                    button.setAttribute("type", "button");
-                    button.setAttribute("name",hallgato.PoseidonKod);
-                    button.setAttribute("id","hallgato_reszletek_"+hallgato.PoseidonKod);
-                    button.setAttribute("value", "Reszletek");
-                    cell_details.appendChild(button);
-                    $(button).click(button_click_handler);
+                if (--timer < 0) {
+                    get_backend_data();
+                    timer = duration;
 
                 }
+            }, 1000);
+        }
+
+        function button_click_handler(evt) {
+            var button = evt.target;
+            $.ajax({
+                url: "../hallgatok/" + button.name + ".json",
+                dataType: "json",
+                success: display_student
+            });
+        }
+
+        function display_student(data) {
+            var display = "";
+            $.each(data, function(key, value) {
+                display += key + ": " + value + "\n";
+            });
+            alert(display);
+        }
+
+
+
+        function load_data_into_table(data) {
+            var hallgatok = data.hallgatok;
+            var table = document.getElementById("students");
+            table.innerHTML = "";
+            var header = table.createTHead();
+            var row = header.insertRow(-1);
+            var cell = row.insertCell(-1);
+            cell.innerHTML = "<b>Nev</b>";
+            var cell1 = row.insertCell(-1);
+            cell1.innerHTML = "<b>Poseidonkod</b>";
+            var cell2 = row.insertCell(-1);
+            cell2.innerHTML = "<b>Szuletesi Datum</b>";
+            var cell3 = row.insertCell(-1);
+            cell3.innerHTML = "<b>Reszletek</b>";
+            for (var i = 0; i < hallgatok.length; i++) {
+                var hallgato = hallgatok[i];
+                var row = table.insertRow(-1);
+                var cell_nev = row.insertCell(-1);
+                var cell_pcode = row.insertCell(-1);
+                var cell_born = row.insertCell(-1);
+                var cell_details = row.insertCell(-1);
+                $(cell_nev).text(hallgato.Nev);
+                $(cell_pcode).text(hallgato.PoseidonKod);
+                $(cell_born).text(hallgato.SzuletesiDatum);
+
+                var button = document.createElement("input");
+                button.setAttribute("type", "button");
+                button.setAttribute("name", hallgato.PoseidonKod);
+                button.setAttribute("id", "hallgato_reszletek_" + hallgato.PoseidonKod);
+                button.setAttribute("value", "Reszletek");
+                cell_details.appendChild(button);
+                $(button).click(button_click_handler);
+
             }
-        </script>
-        <div id="time"></div>
-        <table id="students">
-            <tr>
-                <th>Nev</th>
-                <th>Poseidonkod</th>
-                <th>Szuletesi Datum</th>
-                <th>Reszletek</th>
-            </tr>
-        </table>
-    </body>
+        }
+    </script>
+    <div id="time"></div>
+    <table id="students">
+        <tr>
+            <th>Nev</th>
+            <th>Poseidonkod</th>
+            <th>Szuletesi Datum</th>
+            <th>Reszletek</th>
+        </tr>
+    </table>
+</body>
