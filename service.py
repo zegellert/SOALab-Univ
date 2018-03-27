@@ -93,7 +93,7 @@ def list_student_bypos(pos):
             result = cur.fetchone()
             if result is None:
                 abort(404)
-            return jsonify(cur.fetchone().nev)
+            return jsonify(result[0])
         finally:
             cur.close()
     finally:
