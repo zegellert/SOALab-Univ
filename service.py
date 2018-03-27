@@ -120,6 +120,8 @@ def list_student_bypos_county(pos):
                     'addressdetails':1
                 }
                 res=requests.get('https://nominatim.openstreetmap.org/search/',params)
+            except IOError:
+                pass
 
             #return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3])
             return jsonify(res)
