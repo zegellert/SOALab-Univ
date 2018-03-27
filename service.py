@@ -23,7 +23,7 @@ from datetime import datetime
 from datetime import date
 import json
 
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, Response
 import cx_Oracle
 import requests
 
@@ -113,6 +113,8 @@ def list_student_bypos_county(pos):
                     return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg="Ismeretlen")
             if request.method=='DELETE':
                 cur.execute('DELETE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
+                conn.commit()
+                return jsonify(status="Delete success.")
             else:
                 abort(405)
         finally:
