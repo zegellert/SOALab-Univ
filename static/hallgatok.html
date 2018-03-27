@@ -10,12 +10,17 @@
                 display = $('#time');
     timer(5, display);
 
+                    get_backend_data();
+                
+            });
+
+            function get_backend_data(){
                 $.ajax({
                     url: "../hallgatok.json",
                     dataType: "json",
                     success: load_data_into_table
                 });
-            });
+            }
 
             function timer(duration, display) {
     var timer = duration, seconds;
@@ -24,10 +29,12 @@
 
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.text(seconds);
+        display.text("Az adatok frissitiseig hatralevo ido: 00:"+seconds);
 
         if (--timer < 0) {
+            get_backend_data();
             timer = duration;
+
         }
     }, 1000);
 }
@@ -54,6 +61,17 @@ alert(display);
             function load_data_into_table(data) {
                 var hallgatok = data.hallgatok;
                 var table = document.getElementById("students");
+                table.innerHTML = "";
+                var header=table.createTHead();
+                var row = header.insertRow(-1);
+    var cell = row.insertCell(-1);
+    cell.innerHTML = "<b>Nev</b>";
+    var cell1 = row.insertCell(-1);
+    cell1.innerHTML = "<b>Poseidonkod</b>";
+    var cell2 = row.insertCell(-1);
+    cell2.innerHTML = "<b>Szuletesi Datum</b>";
+    var cell3 = row.insertCell(-1);
+    cell3.innerHTML = "<b>Reszletek</b>";
                 for (var i = 0; i < hallgatok.length; i++) {
                     var hallgato = hallgatok[i];
                     var row = table.insertRow(-1);
