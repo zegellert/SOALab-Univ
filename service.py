@@ -80,27 +80,9 @@ def list_students():
     finally:
         
         conn.close()
-	
+
+
 @app.route('/hallgatok/<pos>.json')
-def list_student_bypos(pos):
-    """Lists the student in the database with given PS code"""
-    conn = get_db()
-    try:
-        cur = conn.cursor()
-        try:
-            cur.execute('SELECT NEV,SZULETESIDATUM,CIM,EGYETEMKEZDESEVE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
-            result=cur.fetchone()
-            if result is None:
-                abort(404)
-            
-            return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3])
-        finally:
-            cur.close()
-    finally:
-        conn.close()
-
-
-@app.route('/hallgatok/terseg/<pos>.json')
 def list_student_bypos_county(pos):
     """Lists the student in the database with given PS code, with county"""
     conn = get_db()
