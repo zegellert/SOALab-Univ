@@ -124,7 +124,8 @@ def list_student_bypos_county(pos):
                 pass
 
             #return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3])
-            return jsonify(result=res.content)
+            j=json.loads(res.content)
+            return jsonify(ret=j[0]['address']['county'])
         finally:
             cur.close()
     finally:
