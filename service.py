@@ -4,14 +4,11 @@
 """
     Databases Laboratory 5
     SOA service demo
-
     This sample service was created for the purposes of demonstrating some
     of the functionality you can achieve by combining the power of three
     Python libraries: cx_Oracle, Flask, and Requests.
-
     It does not intend to be perfect Python code -- in some places, perfection
     was traded for simplicity, some of these are marked in comments.
-
     This comment is a so-called docstring, all Python modules and
     functions/methods should have one. Three " or ' characters make it
     possible for multiline strings, and interactive Python environments
