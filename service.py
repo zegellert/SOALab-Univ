@@ -135,7 +135,7 @@ def list_student_bypos_county(pos):
                                    Cim=result[2],
                                    EgyetemKezdesEve=result[3],
                                    Kisterseg=j[0]['address']['county'])
-                except KeyError:
+                except Exception:
                     return jsonify(Nev=result[0],
                                    SzuletesiDatum=date.isoformat(result[1]),
                                    Cim=result[2],
