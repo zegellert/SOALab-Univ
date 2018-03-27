@@ -90,12 +90,11 @@ def list_student_bypos(pos):
         cur = conn.cursor()
         try:
             cur.execute('SELECT NEV,SZULETESIDATUM,CIM,EGYETEMKEZDESEVE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
-            results = []
-            if results is None:
+            result=cur.fetchone()
+            if result is None:
                 abort(404)
-            for poseidonkod,nev,szuletesidatum in cur:
-                results.append({ 'Nev': nev,'SzuletesiDatum':date.isoformat(szuletesidatum)})
-            return jsonify(hallgatok=results)
+            
+            return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3])
         finally:
             cur.close()
     finally:
@@ -146,7 +145,7 @@ def show_person(szemelyi_szam):
                 pass # necessary if a clause would be empty in Python
 
             # result set rows can be indexed too
-            return jsonify(nev=result[0], links=links)
+            return jsonify(nev=result[0])
         finally:
             cur.close()
     finally:
