@@ -82,7 +82,7 @@ def list_students():
         conn.close()
 
 
-@app.route('/hallgatok/<pos>.json',methods=['GET'])
+@app.route('/hallgatok/<pos>.json',methods=['GET','DELETE'])
 def list_student_bypos_county(pos):
     """Lists the student in the database with given PS code, with county"""
     conn = get_db()
