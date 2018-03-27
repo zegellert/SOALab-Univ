@@ -4,11 +4,14 @@
 """
     Databases Laboratory 5
     SOA service demo
+
     This sample service was created for the purposes of demonstrating some
     of the functionality you can achieve by combining the power of three
     Python libraries: cx_Oracle, Flask, and Requests.
+
     It does not intend to be perfect Python code -- in some places, perfection
     was traded for simplicity, some of these are marked in comments.
+
     This comment is a so-called docstring, all Python modules and
     functions/methods should have one. Three " or ' characters make it
     possible for multiline strings, and interactive Python environments
@@ -79,7 +82,7 @@ def list_students():
         conn.close()
 
 
-@app.route('/hallgatok/<pos>.json')
+@app.route('/hallgatok/<pos>.json',methods=['GET'])
 def list_student_bypos_county(pos):
     """Lists the student in the database with given PS code, with county"""
     conn = get_db()
@@ -91,23 +94,27 @@ def list_student_bypos_county(pos):
             if result is None:
                 abort(404)
             
-            try:
-                params={
-                    'format':'json',
-                    'q':result[2],
-                    'limit':1,
-                    'addressdetails':1
-                }
-                res=requests.get('https://nominatim.openstreetmap.org/search/',params=params)
-            except IOError:
-                pass
+            if request.method=='GET':
+                try:
+                    params={
+                        'format':'json',
+                        'q':result[2],
+                        'limit':1,
+                        'addressdetails':1
+                    }
+                    res=requests.get('https://nominatim.openstreetmap.org/search/',params=params)
+                except IOError:
+                    pass
 
-            j=json.loads(res.content)
-            try:
-                return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg=j[0]['address']['county'])
-            except KeyError:
-                return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg="Ismeretlen")
-            
+                j=json.loads(res.content)
+                try:
+                    return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg=j[0]['address']['county'])
+                except KeyError:
+                    return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg="Ismeretlen")
+            if request.method=='DELETE':
+                cur.execute('DELETE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
+            else:
+                abort(405)
         finally:
             cur.close()
     finally:
