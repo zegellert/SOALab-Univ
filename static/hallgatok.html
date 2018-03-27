@@ -14,6 +14,21 @@
                 });
             });
 
+            function button_click_handler(evt){
+                var button = evt.target;
+                $.ajax({
+                    url: "../hallgatok/"+button.name+".json",
+                    dataType: "json",
+                    success: display_student
+                });
+            }
+
+            function display_student(data){
+                alert(data);
+            }
+
+
+
             function load_data_into_table(data) {
                 var hallgatok = data.hallgatok;
                 var table = document.getElementById("students");
@@ -23,9 +38,18 @@
                     var cell_nev = row.insertCell(-1);
                     var cell_pcode = row.insertCell(-1);
                     var cell_born = row.insertCell(-1);
+                    var cell_details=row.insertCell(-1);
                     $(cell_nev).text(hallgato.Nev);
                     $(cell_pcode).text(hallgato.PoseidonKod);
                     $(cell_born).text(hallgato.SzuletesiDatum);
+                    
+                    var button = document.createElement("input");
+                    button.setAttribute("type", "button");
+                    button.setAttribute("name",hallgato.PoseidonKod);
+                    button.setAttribute("id","hallgato_reszletek_"+hallgato.PoseidonKod);
+                    button.setAttribute("value", "Reszletek");
+                    cell_details.appendChild(button);
+                    $(button).click(button_click_handler);
                 }
             }
         </script>
@@ -34,6 +58,7 @@
                 <th>Nev</th>
                 <th>Poseidonkod</th>
                 <th>Szuletesi Datum</th>
+                <th>Reszletek</th>
             </tr>
         </table>
     </body>
