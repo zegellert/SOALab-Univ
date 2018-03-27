@@ -114,7 +114,7 @@ def list_student_bypos_county(pos):
             if request.method=='DELETE':
                 cur.execute('DELETE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
                 conn.commit()
-                return jsonify(status="Delete success.")
+                return jsonify(status="Delete successful.")
             else:
                 abort(405)
         finally:
