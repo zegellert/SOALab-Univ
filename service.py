@@ -119,7 +119,7 @@ def list_student_bypos_county(pos):
                     'limit':1,
                     'addressdetails':1
                 }
-                res=requests.get('https://nominatim.openstreetmap.org/search/',params)
+                res=requests.get('https://nominatim.openstreetmap.org/search/',params=params)
             except IOError:
                 pass
 
