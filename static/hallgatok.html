@@ -7,12 +7,30 @@
     <body>
         <script type="text/javascript">
             $(function() {
+                display = $('#time');
+    timer(5, display);
+
                 $.ajax({
                     url: "../hallgatok.json",
                     dataType: "json",
                     success: load_data_into_table
                 });
             });
+
+            function timer(duration, display) {
+    var timer = duration, seconds;
+    setInterval(function () {
+        seconds = parseInt(timer % 60, 10);
+
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.text(seconds);
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
 
             function button_click_handler(evt){
                 var button = evt.target;
@@ -57,6 +75,7 @@ alert(display);
                 }
             }
         </script>
+        <div id="time"></div>
         <table id="students">
             <tr>
                 <th>Nev</th>

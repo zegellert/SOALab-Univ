@@ -97,7 +97,7 @@ def list_student_bypos_county(pos):
             try:
                 params={
                     'format':'json',
-                    'q':str(result[2]),
+                    'q':result[2],
                     'limit':1,
                     'addressdetails':1
                 }
@@ -110,6 +110,7 @@ def list_student_bypos_county(pos):
                 return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg=j[0]['address']['county'])
             except KeyError:
                 return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3],Kisterseg="Ismeretlen")
+            
         finally:
             cur.close()
     finally:
