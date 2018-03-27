@@ -3,14 +3,37 @@
     <head>
         <title>Hallgatok</title>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    </head>
+    <body>
         <script type="text/javascript">
             $(function() {
                 $.ajax({
-                    url: "../szemelyek.json",
+                    url: "../hallgatok.json",
                     dataType: "json",
                     success: load_data_into_table
                 });
             });
 
-            function load_data_into_table(data) {}
+            function load_data_into_table(data) {
+                var hallgatok = data.hallgatok;
+                var table = document.getElementById("students");
+                for (var i = 0; i < hallgatok.length; i++) {
+                    var hallgato = hallgatok[i];
+                    var row = table.insertRow(-1);
+                    var cell_nev = row.insertCell(-1);
+                    var cell_pcode = row.insertCell(-1);
+                    var cell_born = row.insertCell(-1);
+                    $(cell_nev).text(hallgato.Nev);
+                    $(cell_pcode).text(hallgato.PoseidonKod);
+                    $(cell_born).text(hallgato.SzuletesiDatum);
+                }
+            }
         </script>
+        <table id="students">
+            <tr>
+                <th>Nev</th>
+                <th>Poseidonkod</th>
+                <th>Szuletesi Datum</th>
+            </tr>
+        </table>
+    </body>
