@@ -100,6 +100,35 @@ def list_student_bypos(pos):
         conn.close()
 
 
+@app.route('/hallgatok/terseg/<pos>.json')
+def list_student_bypos_county(pos):
+    """Lists the student in the database with given PS code, with county"""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+        try:
+            cur.execute('SELECT NEV,SZULETESIDATUM,CIM,EGYETEMKEZDESEVE FROM HALLGATOK WHERE POSEIDONKOD=:pkod',pkod=pos)
+            result=cur.fetchone()
+            if result is None:
+                abort(404)
+            
+            try:
+                params={
+                    'format':'json',
+                    'query':result[2],
+                    'limit':1,
+                    'addressdetails':1
+                }
+                res=requests.get('https://nominatim.openstreetmap.org/search/',params)
+
+            #return jsonify(Nev=result[0],SzuletesiDatum=date.isoformat(result[1]),Cim=result[2],EgyetemKezdesEve=result[3])
+            return jsonify(res)
+        finally:
+            cur.close()
+    finally:
+        conn.close()
+
+
 @app.route('/szemely/<szemelyi_szam>.json')
 def show_person(szemelyi_szam):
     """Shows the details of a single person by szemelyi_szam"""
